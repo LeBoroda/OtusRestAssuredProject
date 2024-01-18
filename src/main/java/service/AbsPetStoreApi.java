@@ -1,9 +1,9 @@
 package service;
 
+import static io.restassured.RestAssured.given;
+
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-
-import static io.restassured.RestAssured.given;
 
 public abstract class AbsPetStoreApi {
   final RequestSpecification requestSpec;

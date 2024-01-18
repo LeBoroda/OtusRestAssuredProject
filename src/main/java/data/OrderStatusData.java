@@ -5,11 +5,12 @@ import lombok.Getter;
 @Getter
 public enum OrderStatusData {
   PLACED("placed"),
-  APPROVED("addroved"),
+  APPROVED("approved"),
   DELIVERED("delivered");
 
   private final String name;
-  OrderStatusData(String name){
+
+  OrderStatusData(String name) {
     this.name = name;
   }
 

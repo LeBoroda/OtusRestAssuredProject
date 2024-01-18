@@ -1,8 +1,9 @@
 package service;
 
+import static io.restassured.RestAssured.given;
+
 import dto.PetDTO;
 import io.restassured.response.ValidatableResponse;
-import static io.restassured.RestAssured.given;
 
 public class PetService extends AbsPetStoreApi {
   private final String petUri = "/pet";
@@ -41,4 +42,5 @@ public class PetService extends AbsPetStoreApi {
         .then()
         .log().all();
   }
+
 }

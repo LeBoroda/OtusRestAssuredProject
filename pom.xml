@@ -22,6 +22,8 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
 
+    <faker.version>1.0.2</faker.version>
+
     <maven.spotbugs.version>4.7.2.1</maven.spotbugs.version>
     <maven.checkstyle.version>3.3.0</maven.checkstyle.version>
   </properties>
@@ -59,6 +61,11 @@
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <version>${junit.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.javafaker</groupId>
+      <artifactId>javafaker</artifactId>
+      <version>${faker.version}</version>
     </dependency>
   </dependencies>
 

@@ -1,11 +1,11 @@
 package service;
 
+import static io.restassured.RestAssured.given;
+
 import dto.OrderDTO;
 import io.restassured.response.ValidatableResponse;
 
-import static io.restassured.RestAssured.given;
-
-public class StoreService extends AbsPetStoreApi{
+public class StoreService extends AbsPetStoreApi {
 
   private final String orderUri = "/store/order";
   private final String findOrderByIdUri = "/store/order/%d";
@@ -34,4 +34,5 @@ public class StoreService extends AbsPetStoreApi{
         .then()
         .log().all();
   }
+
 }

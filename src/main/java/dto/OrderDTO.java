@@ -14,10 +14,11 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class OrderDTO {
 
-  private Long Id;
-  private Long PetId;
-  private Long Quantity;
-  private String ShipDate;
-  private String Status;
-  private Boolean Complete;
+  private Long id;
+  private Long petId;
+  private Long quantity;
+  private String shipDate;
+  private String status;
+  private Boolean complete;
+
 }
