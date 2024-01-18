@@ -7,10 +7,12 @@ import dto.OrderDTO;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.apache.http.HttpStatus;
+import service.StoreService;
 import java.time.LocalDateTime;
 
 public class Order extends AbsPetstoreObject {
 
+  private final StoreService storeService = new StoreService();
   public OrderDTO createOrderAllFields() {
     return OrderDTO
         .builder()
@@ -55,7 +57,7 @@ public class Order extends AbsPetstoreObject {
     storeService.deleteOrder(orderDTO.getId())
         .statusCode(HttpStatus.SC_OK)
         .contentType(ContentType.JSON)
-        .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/DeleteOrder.json"))
+        .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/DeletePetStoreItem.json"))
         .body("code", equalTo(200))
         .body("message", equalTo(String.valueOf(orderDTO.getId())));
   }
