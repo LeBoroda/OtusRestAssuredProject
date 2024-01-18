@@ -1,8 +1,10 @@
 package petstore;
 
 import com.github.javafaker.Faker;
+import service.StoreService;
 
 public class AbsPetstoreObject {
 
-  public Faker faker = new Faker();
+  Faker faker = new Faker();
+  StoreService storeService = new StoreService();
 }

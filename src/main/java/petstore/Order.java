@@ -7,12 +7,9 @@ import dto.OrderDTO;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.apache.http.HttpStatus;
-import service.StoreService;
 import java.time.LocalDateTime;
 
 public class Order extends AbsPetstoreObject {
-
-  private StoreService storeService = new StoreService();
 
   public OrderDTO createOrderAllFields() {
     return OrderDTO
@@ -51,7 +48,10 @@ public class Order extends AbsPetstoreObject {
   }
 
   public void deleteOrder(OrderDTO orderDTO) {
-    storeService.placeOrder(orderDTO);
+    storeService.deleteOrder(orderDTO.getId())
+        .statusCode(HttpStatus.SC_NOT_FOUND);
+    storeService.placeOrder(orderDTO)
+        .statusCode(HttpStatus.SC_OK);
     storeService.deleteOrder(orderDTO.getId())
         .statusCode(HttpStatus.SC_OK)
         .contentType(ContentType.JSON)
