@@ -2,6 +2,7 @@ package petstore;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import com.github.javafaker.Faker;
 import data.PetStatusData;
 import dto.CreatePetResponseDTO;
 import dto.PetDTO;
@@ -14,6 +15,7 @@ import service.PetService;
 public class Pet extends AbsPetstoreObject {
 
   private final PetService petService = new PetService();
+  private Faker faker = getFaker();
 
   public PetDTO createPetNoUrl() {
     return PetDTO

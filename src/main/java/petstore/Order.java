@@ -2,6 +2,7 @@ package petstore;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import com.github.javafaker.Faker;
 import data.OrderStatusData;
 import dto.OrderDTO;
 import io.restassured.http.ContentType;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 public class Order extends AbsPetstoreObject {
 
   private final StoreService storeService = new StoreService();
+  private Faker faker = getFaker();
   public OrderDTO createOrderAllFields() {
     return OrderDTO
         .builder()

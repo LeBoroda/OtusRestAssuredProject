@@ -9,6 +9,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <properties>
+    <base.uri>"https://petstore.swagger.io/v2/"</base.uri>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <lombok.version>1.18.30</lombok.version>

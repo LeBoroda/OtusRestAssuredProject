@@ -2,8 +2,11 @@ package petstore;
 
 import com.github.javafaker.Faker;
 
-public class AbsPetstoreObject {
+public abstract class AbsPetstoreObject {
 
-  Faker faker = new Faker();
+  private Faker faker = new Faker();
 
+  public Faker getFaker() {
+    return faker;
+  }
 }
