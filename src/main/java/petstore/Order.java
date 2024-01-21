@@ -15,6 +15,7 @@ public class Order extends AbsPetstoreObject {
 
   private final StoreService storeService = new StoreService();
   private final Faker faker = getFaker();
+
   public OrderDTO createOrderAllFields() {
     return OrderDTO
         .builder()
@@ -27,7 +28,7 @@ public class Order extends AbsPetstoreObject {
         .build();
   }
 
-  public void placeOrder(OrderDTO orderDTO) {
+  private Order placeOrder(OrderDTO orderDTO) {
     storeService.placeOrder(orderDTO)
         .statusCode(HttpStatus.SC_OK)
         .contentType(ContentType.JSON)
@@ -35,33 +36,63 @@ public class Order extends AbsPetstoreObject {
         .body("id", equalTo(orderDTO.getId().intValue()))
         .body("petId", equalTo(orderDTO.getPetId().intValue()));
 
-    storeService.deleteOrder(orderDTO.getId());
+    return this;
   }
 
-  public void findPlacedOrder(OrderDTO orderDTO) {
-    storeService.getOrder(orderDTO.getId())
-        .statusCode(HttpStatus.SC_NOT_FOUND);
-    storeService.placeOrder(orderDTO)
-        .statusCode(HttpStatus.SC_OK);
+  private Order findPlacedOrder(OrderDTO orderDTO) {
     storeService.getOrder(orderDTO.getId())
         .statusCode(HttpStatus.SC_OK)
         .contentType(ContentType.JSON)
-        .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/CreateOrder.json"));
+        .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/CreateOrder.json"))
+        .body("id", equalTo(orderDTO.getId().intValue()))
+        .body("petId", equalTo(orderDTO.getPetId().intValue()));
 
-    storeService.deleteOrder(orderDTO.getId());
+    return this;
   }
 
-  public void deleteOrder(OrderDTO orderDTO) {
-    storeService.deleteOrder(orderDTO.getId())
+  private Order findPlacedOrderNegative(OrderDTO orderDTO) {
+    storeService.getOrder(orderDTO.getId())
         .statusCode(HttpStatus.SC_NOT_FOUND);
-    storeService.placeOrder(orderDTO)
-        .statusCode(HttpStatus.SC_OK);
+    return this;
+  }
+
+  private Order deleteOrder(OrderDTO orderDTO) {
     storeService.deleteOrder(orderDTO.getId())
         .statusCode(HttpStatus.SC_OK)
         .contentType(ContentType.JSON)
         .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/DeletePetStoreItem.json"))
         .body("code", equalTo(200))
         .body("message", equalTo(String.valueOf(orderDTO.getId())));
+
+    return this;
   }
 
+  private Order deleteOrderNegative(OrderDTO orderDTO) {
+    storeService.deleteOrder(orderDTO.getId())
+        .statusCode(HttpStatus.SC_NOT_FOUND);
+    return this;
+  }
+
+  public void checkOrderCreate(OrderDTO orderDTO) {
+    placeOrder(orderDTO)
+        .findPlacedOrder(orderDTO)
+        .deleteOrder(orderDTO)
+        .findPlacedOrderNegative(orderDTO);
+  }
+
+  public void checkOrderFind(OrderDTO orderDTO) {
+    findPlacedOrderNegative(orderDTO)
+        .placeOrder(orderDTO)
+        .findPlacedOrder(orderDTO)
+        .deleteOrder(orderDTO)
+        .findPlacedOrderNegative(orderDTO);
+  }
+
+  public void checkOrderDelete(OrderDTO orderDTO) {
+    deleteOrderNegative(orderDTO)
+        .placeOrder(orderDTO)
+        .findPlacedOrder(orderDTO)
+        .deleteOrder(orderDTO)
+        .findPlacedOrderNegative(orderDTO);
+  }
 }

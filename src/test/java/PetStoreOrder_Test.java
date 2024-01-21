@@ -16,35 +16,42 @@ public class PetStoreOrder_Test {
 
   /*
    * Swagger pet store order CREATE testing.
-   * Check for response HTTP code, contentType, validity of response json schema, presence of fields ID and PetId
-   * Delete order after test
+   *
+   * Create order and place it in system,
+   * Find order in system and check it,
+   * Delete created order,
+   * Check that order does not exist in system.
    */
   @Test
   public void orderCreateTest() {
-    order.placeOrder(orderDTO);
+    order.checkOrderCreate(orderDTO);
   }
 
   /*
    * Swagger pet store FIND order testing.
-   * Check is order exists. Should be negative. Check for code 404.
-   * Place order in system. Should be positive. Check for code 200.
-   * Find order by id. Check for response HTTP code, contentType, validity of response json schema.
-   * Delete order after test.
+   *
+   * Find order that does not exist,
+   * Create order and place it in system,
+   * Find order in system and check it
+   * Delete created order,
+   * Check that order does not exist.
    */
   @Test
   public void orderFindTest() {
-    order.findPlacedOrder(orderDTO);
+    order.checkOrderFind(orderDTO);
   }
 
   /*
    * Swagger pet store DELETE order testing.
-   * Delete order that does not exist. Should be negative. Check for code 404.
-   * Place order in system. Should be positive. Check for code 200.
-   * Delete order by id. Check for response HTTP code, contentType, validity of response json schema.
-   * Check response body for code 200 and message equal to order ID number present.
+   *
+   * Delete order that does not exist
+   * Create order and place it in system,
+   * Find order in system and check it
+   * Delete created order,
+   * Check that order does not exist.
    */
   @Test
   public void orderDeleteTest() {
-    order.deleteOrder(orderDTO);
+    order.checkOrderDelete(orderDTO);
   }
 }
