@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Order extends AbsPetstoreObject {
 
   private final StoreService storeService = new StoreService();
-  private Faker faker = getFaker();
+  private final Faker faker = getFaker();
   public OrderDTO createOrderAllFields() {
     return OrderDTO
         .builder()

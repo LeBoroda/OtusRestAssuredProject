@@ -1,12 +1,11 @@
 package petstore;
 
 import com.github.javafaker.Faker;
+import lombok.Getter;
 
+@Getter
 public abstract class AbsPetstoreObject {
 
-  private Faker faker = new Faker();
+  private final Faker faker = new Faker();
 
-  public Faker getFaker() {
-    return faker;
-  }
 }

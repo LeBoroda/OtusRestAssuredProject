@@ -4,11 +4,13 @@ import static io.restassured.RestAssured.given;
 
 import dto.OrderDTO;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
 
 public class StoreService extends AbsPetStoreApi {
 
   private final String orderUri = "/store/order";
   private final String findOrderByIdUri = "/store/order/%d";
+  private final RequestSpecification requestSpec = getRequestSpec();
 
   public ValidatableResponse placeOrder(OrderDTO orderDTO) {
     return given(requestSpec)

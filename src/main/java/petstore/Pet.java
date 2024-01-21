@@ -15,7 +15,7 @@ import service.PetService;
 public class Pet extends AbsPetstoreObject {
 
   private final PetService petService = new PetService();
-  private Faker faker = getFaker();
+  private final Faker faker = getFaker();
 
   public PetDTO createPetNoUrl() {
     return PetDTO
@@ -38,9 +38,6 @@ public class Pet extends AbsPetstoreObject {
     );
     petService.deletePet(petDTO.getId())
         .statusCode(HttpStatus.SC_OK);
-  }
-
-  public void findPetById(PetDTO petDTO) {
   }
 
   public void updatePetById(PetDTO petDTO, String newName) {

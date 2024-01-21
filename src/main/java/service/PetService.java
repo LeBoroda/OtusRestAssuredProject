@@ -4,10 +4,12 @@ import static io.restassured.RestAssured.given;
 
 import dto.PetDTO;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
 
 public class PetService extends AbsPetStoreApi {
   private final String petUri = "/pet";
   private final String findPetByPetIdUri = "/pet/%d";
+  private final RequestSpecification requestSpec = getRequestSpec();
 
   public ValidatableResponse createPet(PetDTO petDTO) {
     return given(requestSpec)
