@@ -28,7 +28,7 @@ public class Pet extends AbsPetstoreObject {
         .build();
   }
 
-  public void createPet(PetDTO petDTO) {
+  private Pet createPet(PetDTO petDTO) {
     CreatePetResponseDTO createPetResponseDTO = petService.createPet(petDTO)
         .extract().response().as(CreatePetResponseDTO.class);
     Assertions.assertAll("Create Pet assertions",
@@ -36,34 +36,78 @@ public class Pet extends AbsPetstoreObject {
         () -> Assertions.assertEquals(petDTO.getName(), createPetResponseDTO.getName(), "Incorrect pet name."),
         () -> Assertions.assertEquals(petDTO.getStatus(), createPetResponseDTO.getStatus(), "Incorrect pet status.")
     );
-    petService.deletePet(petDTO.getId())
-        .statusCode(HttpStatus.SC_OK);
+
+    return this;
   }
 
-  public void updatePetById(PetDTO petDTO, String newName) {
-    petService.getPetByPetId(petDTO.getId())
-        .statusCode(HttpStatus.SC_NOT_FOUND);
-    petService.createPet(petDTO)
-        .statusCode(HttpStatus.SC_OK);
+  private Pet updatePetById(PetDTO petDTO, String newName) {
     petDTO.setName(newName);
     petService.updatePet(petDTO)
         .statusCode(HttpStatus.SC_OK)
         .contentType(ContentType.JSON)
         .body("name", equalTo(newName));
-    petService.deletePet(petDTO.getId())
-        .statusCode(HttpStatus.SC_OK);
+
+    return this;
   }
 
-  public void deletePetById(PetDTO petDTO) {
-    petService.deletePet(petDTO.getId())
-        .statusCode(HttpStatus.SC_NOT_FOUND);
-    petService.createPet(petDTO)
-        .statusCode(HttpStatus.SC_OK);
+  private Pet deletePetById(PetDTO petDTO) {
     petService.deletePet(petDTO.getId())
         .statusCode(HttpStatus.SC_OK)
         .contentType(ContentType.JSON)
         .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/DeletePetStoreItem.json"))
         .body("code", equalTo(200))
         .body("message", equalTo(String.valueOf(petDTO.getId())));
+
+    return this;
   }
+
+  private Pet deletePetByIdNegative(PetDTO petDTO) {
+    petService.deletePet(petDTO.getId())
+        .statusCode(HttpStatus.SC_NOT_FOUND);
+
+    return this;
+  }
+
+  private Pet findPetById(PetDTO petDTO) {
+    petService.getPetByPetId(petDTO.getId())
+        .statusCode(HttpStatus.SC_OK)
+        .body("id", equalTo(petDTO.getId().intValue()))
+        .body("name", equalTo(petDTO.getName()));
+
+    return this;
+  }
+
+  private Pet findPetByIdNegative(PetDTO petDTO) {
+    petService.getPetByPetId(petDTO.getId())
+        .statusCode(HttpStatus.SC_NOT_FOUND);
+
+    return this;
+  }
+
+  public void checkCreatePet(PetDTO petDTO) {
+    createPet(petDTO)
+        .findPetById(petDTO)
+        .deletePetById(petDTO)
+        .findPetByIdNegative(petDTO);
+  }
+
+  public void checkUpdateRep(PetDTO petDTO, String newName) {
+    findPetByIdNegative(petDTO)
+        .createPet(petDTO)
+        .findPetById(petDTO)
+        .updatePetById(petDTO, newName)
+        .findPetById(petDTO)
+        .deletePetById(petDTO)
+        .findPetByIdNegative(petDTO);
+  }
+
+  public void checkDeletePet(PetDTO petDTO) {
+    deletePetByIdNegative(petDTO)
+        .createPet(petDTO)
+        .findPetById(petDTO)
+        .deletePetById(petDTO)
+        .findPetByIdNegative(petDTO);
+
+  }
+
 }

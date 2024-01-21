@@ -15,36 +15,44 @@ public class PetStorePet_Test {
 
   /*
    * Swagger pet store pet CREATE test.
-   * Check for pet id, name and status with responseDTO object.
-   * Delete pet after test. Check for OK code.
+   *
+   * Create pet in pet store and place it in system,
+   * Find pet in system,
+   * Delete pet,
+   * Check that pet does not exist in system.
    */
   @Test
   public void createPetTest() {
-    pet.createPet(petDTO);
+    pet.checkCreatePet(petDTO);
   }
 
   /* Swagger pet store pet UPDATE test.
-   * Get pet that does not exist by ID. Should be negative. Check for code 404.
-   * Create pet in system. Should be positive. Check for code 200.
-   * Update pet name in system. Should be positive.
-   * Check for response HTTP code, contentType, new pet name.
-   * Delete pet after test. Check for OK code.
+   *
+   * Check that pet does not exist in system,
+   * Create pet in pet store and place it in system,
+   * Find pet in system,
+   * Update pet name in system,
+   * Find pet with new name in system,
+   * Delete pet,
+   * Check that pet does not exist in system.
    */
   @Test
   public void updatePet() {
-    pet.updatePetById(petDTO, "ZHOOOZHAA");
+    pet.checkUpdateRep(petDTO, "ZHOOOZHAA");
   }
 
   /*
    * Swagger pet store pet DELETE test.
-   * Delete pet that does not exist. Should be negative. Check for code 404.
-   * Create pet in system. Should be positive. Check for code 200.
-   * Delete pet by id. Check for response HTTP code, contentType, validity of response json schema.
-   * Check response body for code 200 and message equal to pet ID number present.
+   *
+   * Delete pet that does not exist,
+   * Create pet in pet store and place it in system,
+   * Find pet in system,
+   * Delete pet,
+   * Check that pet does not exist in system.
    */
   @Test
   public void deletePet() {
-    pet.deletePetById(petDTO);
+    pet.checkDeletePet(petDTO);
   }
 
 }
